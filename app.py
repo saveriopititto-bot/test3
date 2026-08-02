@@ -1,27 +1,18 @@
 import streamlit as st
-from config.settings import ASSET_CATALOG
-from data.fetcher import fetch_asset_data, calculate_moving_average
-from ui.views import load_css, render_sidebar, render_main_dashboard
+from ui.views import load_css
 
-# --- MAIN APP ---
-def main() -> None:
-    st.set_page_config(
-        page_title="Dashboard Finanziaria",
-        page_icon="📈",
-        layout="wide"
-    )
-    
-    load_css()
-    
-    selected_ticker, asset_name, selected_period = render_sidebar(ASSET_CATALOG)
-    
-    render_main_dashboard(
-        ticker=selected_ticker,
-        asset_name=asset_name,
-        period=selected_period,
-        fetch_func=fetch_asset_data,
-        calc_ma_func=calculate_moving_average
-    )
+st.set_page_config(
+    page_title="FinSuite Portfolio",
+    page_icon="📈",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-if __name__ == "__main__":
-    main()
+load_css()
+
+# Definisci le pagine
+historical_page = st.Page("pages_app/historical.py", title="Analisi Storica", icon="📈")
+simulator_page = st.Page("pages_app/simulator.py", title="Portfolio Simulator", icon="🎲")
+
+pg = st.navigation([simulator_page, historical_page])
+pg.run()
