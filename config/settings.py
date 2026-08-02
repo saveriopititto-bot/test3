@@ -1,6 +1,5 @@
-from typing import Dict, Any
+from typing import Dict
 
-# Catalogo Strutturato per Mercato -> Categoria -> Asset
 ASSET_CATALOG: Dict[str, Dict[str, Dict[str, str]]] = {
     "Mercato USA": {
         "Azionario (Indici)": {

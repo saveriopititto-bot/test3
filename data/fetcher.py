@@ -1,11 +1,9 @@
 import yfinance as yf
 import pandas as pd
-from typing import Optional
 
 def fetch_asset_data(ticker: str, period: str = "1y") -> pd.DataFrame:
     """
     Recupera i dati storici per un dato ticker utilizzando yfinance.
-    La logica è puramente funzionale e non dipende da Streamlit.
     """
     try:
         data = yf.download(ticker, period=period, progress=False)
@@ -26,7 +24,6 @@ def calculate_moving_average(df: pd.DataFrame, window: int = 30) -> pd.DataFrame
     
     df_result = df.copy()
     
-    # Flatten multi-index per compatibilità yfinance >= 0.2.30
     if isinstance(df_result.columns, pd.MultiIndex):
         close_col = df_result['Close'].iloc[:, 0]
     else:

@@ -1,6 +1,5 @@
-import plotly.express as px
-import plotly.graph_objects as go
 import pandas as pd
+import plotly.graph_objects as go
 
 def create_price_chart(df: pd.DataFrame, ticker: str, asset_name: str) -> go.Figure:
     """
@@ -9,7 +8,6 @@ def create_price_chart(df: pd.DataFrame, ticker: str, asset_name: str) -> go.Fig
     if df.empty:
         return go.Figure()
 
-    # Gestione compatibilità MultiIndex pandas/yfinance
     if isinstance(df.columns, pd.MultiIndex):
         close_series = df['Close'].iloc[:, 0]
     else:
@@ -17,18 +15,20 @@ def create_price_chart(df: pd.DataFrame, ticker: str, asset_name: str) -> go.Fig
 
     fig = go.Figure()
     
-    # Aggiungi traccia Prezzo di Chiusura
+    primary_line_color = '#635BFF'
+    ma_colors = ['#00D09C', '#F04438', '#F6C343']
+    
     fig.add_trace(
         go.Scatter(
             x=df.index, 
             y=close_series, 
             mode='lines', 
             name='Prezzo Chiusura', 
-            line=dict(color='#035158') # Blu Petrolio
+            line=dict(color=primary_line_color, width=2)
         )
     )
     
-    # Identifica e aggiungi le medie mobili se presenti
+    ma_index = 0
     for col in df.columns:
         if isinstance(col, tuple):
             col_name = col[0]
@@ -37,23 +37,26 @@ def create_price_chart(df: pd.DataFrame, ticker: str, asset_name: str) -> go.Fig
             
         if isinstance(col_name, str) and col_name.startswith('MA_'):
             ma_series = df[col] if not isinstance(df.columns, pd.MultiIndex) else df[col].iloc[:, 0] if isinstance(df[col], pd.DataFrame) else df[col]
+            ma_color = ma_colors[ma_index % len(ma_colors)]
             fig.add_trace(
                 go.Scatter(
                     x=df.index, 
                     y=ma_series, 
                     mode='lines', 
                     name=col_name, 
-                    line=dict(dash='dash', color='#e5eff0')
+                    line=dict(dash='dash', color=ma_color, width=1.5)
                 )
             )
+            ma_index += 1
             
     fig.update_layout(
-        title=f"Andamento Prezzo: {asset_name} ({ticker})",
+        title=f"Andamento Storico: {asset_name} ({ticker})",
         xaxis_title="Data",
-        yaxis_title="Prezzo (USD)",
+        yaxis_title="Prezzo",
         template="plotly_white",
         hovermode="x unified",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        margin=dict(l=0, r=0, t=50, b=0)
     )
     
     return fig

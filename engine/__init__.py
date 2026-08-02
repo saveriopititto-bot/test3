@@ -1,1 +1,0 @@
-# Inizializzatore per modulo engine
