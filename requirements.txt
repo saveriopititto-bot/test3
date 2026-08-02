@@ -2,3 +2,5 @@ streamlit
 yfinance
 pandas
 plotly
+great-tables
+streamlit-extras

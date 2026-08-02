@@ -13,11 +13,12 @@ def main() -> None:
     
     load_css()
     
-    selected_ticker, asset_name = render_sidebar(ASSET_CATALOG)
+    selected_ticker, asset_name, selected_period = render_sidebar(ASSET_CATALOG)
     
     render_main_dashboard(
         ticker=selected_ticker,
         asset_name=asset_name,
+        period=selected_period,
         fetch_func=fetch_asset_data,
         calc_ma_func=calculate_moving_average
     )
