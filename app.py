@@ -34,7 +34,7 @@ with col1:
     scelta = st.selectbox("Seleziona il Future:", list(futures_disponibili.keys()))
 
 with col2:
-    periodo_scelto = st.selectbox("Orizzonte temporale:", ["5d", "1mo", "3mo", "6mo", "1y", "max"], index=1)
+    periodo_scelto = st.selectbox("Orizzonte temporale:", ["5d", "1mo", "3mo", "6mo", "1y", "5y", "10y"], index=1)
 
 ticker_selezionato = futures_disponibili[scelta]
 
