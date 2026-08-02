@@ -1,0 +1,76 @@
+/* Import Milligram CSS CDN */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css');
+
+/* 
+   Root Variables - Palette Funzionale per Dashboard Finanziaria 
+   Colori ad alto contrasto per migliorare la leggibilità.
+*/
+:root {
+    --color-primary: #0A2540; /* Deep Navy Blue (professionale) */
+    --color-secondary: #635BFF; /* Vibrant Indigo (per elementi interattivi) */
+    --color-tertiary: #4F566B; /* Slate Gray (testi secondari) */
+    --color-quaternary: #F7FAFC; /* Light Gray (Sfondi) */
+    --color-initial: #ffffff;
+    --color-positive: #00D09C; /* Verde positivo */
+    --color-negative: #F04438; /* Rosso negativo */
+}
+
+/* Base override */
+body, .stApp {
+    color: #1A1F36;
+    font-family: 'Inter', 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Typography override */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Streamlit specific text override */
+.stMarkdown p, .stText p {
+    font-size: 1.6rem;
+    line-height: 1.6;
+}
+
+/* Links */
+a {
+    color: var(--color-secondary);
+}
+a:hover {
+    color: var(--color-primary);
+}
+
+/* Streamlit Tabs Styling */
+.stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {
+    color: var(--color-secondary) !important;
+    border-bottom-color: var(--color-secondary) !important;
+}
+
+/* Buttons (Milligram & Streamlit) */
+.button, button, 
+.stButton>button {
+    background-color: var(--color-secondary) !important;
+    border-color: var(--color-secondary) !important;
+    color: var(--color-initial) !important;
+}
+
+.button:focus, .button:hover, 
+button:focus, button:hover,
+.stButton>button:hover {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-initial) !important;
+}
+
+/* Sidebar styling overrides */
+[data-testid="stSidebar"] {
+    background-color: var(--color-quaternary);
+    border-right: 1px solid #E3E8EE;
+}
+
+[data-testid="stSidebar"] h1, 
+[data-testid="stSidebar"] h2, 
+[data-testid="stSidebar"] h3 {
+    color: var(--color-primary);
+}
