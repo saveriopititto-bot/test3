@@ -12,9 +12,16 @@ def scarica_dati_future(ticker, periodo="1mo"):
     asset = yf.Ticker(ticker)
     storico = asset.history(period=periodo)
     
-    # Resetta l'indice per avere la Data come colonna e non come indice nascosto
     if not storico.empty:
         storico.reset_index(inplace=True)
+        
+        # 1. Uniforma il nome della colonna (yfinance a volte usa 'Datetime' per periodi brevi)
+        if 'Datetime' in storico.columns:
+            storico.rename(columns={'Datetime': 'Date'}, inplace=True)
+            
+        # 2. LA SOLUZIONE AL BUG: Forza il formato a data semplice, rimuovendo il fuso orario
+        storico['Date'] = pd.to_datetime(storico['Date']).dt.date
+        
     return storico
 
 # Mappatura etichette comprensibili -> Ticker di Yahoo Finance
