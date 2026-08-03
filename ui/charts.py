@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.graph_objects as go
+from config.settings import CHART_COLORS
 
 def create_price_chart(df: pd.DataFrame, ticker: str, asset_name: str) -> go.Figure:
     """
@@ -15,8 +16,8 @@ def create_price_chart(df: pd.DataFrame, ticker: str, asset_name: str) -> go.Fig
 
     fig = go.Figure()
     
-    primary_line_color = '#635BFF'
-    ma_colors = ['#00D09C', '#F04438', '#F6C343']
+    primary_line_color = CHART_COLORS["secondary"]
+    ma_colors = [CHART_COLORS["positive"], CHART_COLORS["negative"], CHART_COLORS["warning"]]
     
     fig.add_trace(
         go.Scatter(

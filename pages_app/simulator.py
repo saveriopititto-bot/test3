@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from simulator.monte_carlo import run_monte_carlo
+from config.settings import CHART_COLORS
 
 # Callback per sincronizzare i profili di rischio con gli slider
 def update_sliders_from_profile():
@@ -81,19 +82,7 @@ def run():
     # Formattazione per le card
     def fmt(val): return f"${val/1000:.1f}K"
     def delta(val): return f"+ ${max(0, val - total_contributed)/1000:.1f}K vs contributed"
-    
-    # CSS Custom per le metriche
-    st.markdown("""
-    <style>
-    .metric-card {
-        background-color: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; text-align: left; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .metric-label { font-size: 0.85rem; color: #6b7280; font-weight: 600; text-transform: uppercase; margin-bottom: 8px;}
-    .metric-value { font-size: 1.8rem; font-weight: 700; color: #111827; margin-bottom: 8px;}
-    .metric-delta { font-size: 0.85rem; color: #059669; font-weight: 500;}
-    </style>
-    """, unsafe_allow_html=True)
-    
+
     c1, c2, c3, c4 = st.columns(4)
     with c1:
         st.markdown(f'<div class="metric-card"><div class="metric-label">Median Outcome</div><div class="metric-value">{fmt(median_val)}</div><div class="metric-delta">▲ {delta(median_val)}</div></div>', unsafe_allow_html=True)
@@ -102,7 +91,7 @@ def run():
     with c3:
         st.markdown(f'<div class="metric-card"><div class="metric-label">10th Percentile</div><div class="metric-value">{fmt(p10_val)}</div><div class="metric-delta">▲ {delta(p10_val)}</div></div>', unsafe_allow_html=True)
     with c4:
-        st.markdown(f'<div class="metric-card"><div class="metric-label">Probability of Loss</div><div class="metric-value">{prob_loss:.0f}%</div><div class="metric-delta" style="color:#6b7280;">below contributions</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div class="metric-label">Probability of Loss</div><div class="metric-value">{prob_loss:.0f}%</div><div class="metric-delta metric-delta-neutral">below contributions</div></div>', unsafe_allow_html=True)
     
     st.write("")
     
@@ -120,13 +109,13 @@ def run():
         x=np.concatenate([x_axis, x_axis[::-1]]),
         y=np.concatenate([p90, p10[::-1]]),
         fill='toself',
-        fillcolor='rgba(43, 172, 250, 0.2)',
+        fillcolor=CHART_COLORS["range_fill"],
         line=dict(color='rgba(255,255,255,0)'),
         name='10-90% range'
     ))
-    
-    fig_line.add_trace(go.Scatter(x=x_axis, y=medians, mode='lines', line=dict(color='#0088fe', width=3), name='Median'))
-    fig_line.add_trace(go.Scatter(x=x_axis, y=contributions, mode='lines', line=dict(color='#82ca9d', width=2, dash='dash'), name='Total contributed'))
+
+    fig_line.add_trace(go.Scatter(x=x_axis, y=medians, mode='lines', line=dict(color=CHART_COLORS["secondary"], width=3), name='Median'))
+    fig_line.add_trace(go.Scatter(x=x_axis, y=contributions, mode='lines', line=dict(color=CHART_COLORS["positive"], width=2, dash='dash'), name='Total contributed'))
     
     fig_line.update_layout(
         title="Projected portfolio value",
@@ -145,13 +134,13 @@ def run():
     
     with b_col1:
         st.markdown("#### Active allocation")
-        fig_pie = go.Figure(data=[go.Pie(labels=['Stocks', 'Bonds', 'Cash'], values=[stocks, bonds, cash], hole=.6, marker_colors=['#0088fe', '#9333ea', '#10b981'])])
+        fig_pie = go.Figure(data=[go.Pie(labels=['Stocks', 'Bonds', 'Cash'], values=[stocks, bonds, cash], hole=.6, marker_colors=[CHART_COLORS["stocks"], CHART_COLORS["bonds"], CHART_COLORS["cash"]])])
         fig_pie.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=300, showlegend=True)
         st.plotly_chart(fig_pie, use_container_width=True)
         
     with b_col2:
         st.markdown("#### Final-value distribution")
-        fig_hist = go.Figure(data=[go.Histogram(y=final_values, orientation='h', marker_color='#0088fe', nbinsy=30)])
+        fig_hist = go.Figure(data=[go.Histogram(y=final_values, orientation='h', marker_color=CHART_COLORS["secondary"], nbinsy=30)])
         fig_hist.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=300, xaxis_title="Count", yaxis_title="Final Value ($)", template="plotly_white")
         st.plotly_chart(fig_hist, use_container_width=True)
 

@@ -1,5 +1,20 @@
 from typing import Dict
 
+# Palette di brand condivisa tra CSS (assets/style.css) e i grafici Plotly,
+# cosi' i colori restano coerenti su tutta l'app.
+CHART_COLORS: Dict[str, str] = {
+    "primary": "#0A2540",
+    "secondary": "#635BFF",
+    "tertiary": "#4F566B",
+    "positive": "#00D09C",
+    "negative": "#F04438",
+    "warning": "#F6C343",
+    "stocks": "#635BFF",
+    "bonds": "#0A2540",
+    "cash": "#00D09C",
+    "range_fill": "rgba(99, 91, 255, 0.15)",
+}
+
 ASSET_CATALOG: Dict[str, Dict[str, Dict[str, str]]] = {
     "Mercato USA": {
         "Azionario (Indici)": {

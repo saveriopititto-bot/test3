@@ -1,25 +1,53 @@
 /* Import Milligram CSS CDN */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css');
 
-/* Root Variables - Palette Funzionale per Dashboard Finanziaria */
+/* Root Variables - Palette Funzionale per Dashboard Finanziaria (light mode) */
 :root {
-    --color-primary: #0A2540; 
-    --color-secondary: #635BFF; 
-    --color-tertiary: #4F566B; 
-    --color-quaternary: #F7FAFC; 
+    --color-primary: #0A2540;
+    --color-secondary: #635BFF;
+    --color-tertiary: #4F566B;
+    --color-quaternary: #F7FAFC;
     --color-initial: #ffffff;
-    --color-positive: #00D09C; 
-    --color-negative: #F04438; 
+    --color-positive: #00D09C;
+    --color-negative: #F04438;
+
+    --color-text: #1A1F36;
+    --color-text-muted: #6b7280;
+    --color-surface: #ffffff;
+    --color-surface-border: #e5e9f0;
+    --color-sidebar-bg: var(--color-quaternary);
+    --color-sidebar-border: #E3E8EE;
+    --card-shadow: 0 2px 4px rgba(10, 37, 64, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-quaternary: #111827;
+        --color-initial: #0A2540;
+        --color-text: #E5E9F0;
+        --color-text-muted: #9AA5B1;
+        --color-surface: #1A2332;
+        --color-surface-border: #2A3648;
+        --color-sidebar-bg: #0D1520;
+        --color-sidebar-border: #22303F;
+        --card-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
 }
 
 body, .stApp {
-    color: #1A1F36;
+    color: var(--color-text);
     font-family: 'Inter', 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--color-primary);
     font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--color-text);
+    }
 }
 
 .stMarkdown p, .stText p {
@@ -38,22 +66,75 @@ a:hover { color: var(--color-primary); }
 .button, button, .stButton>button {
     background-color: var(--color-secondary) !important;
     border-color: var(--color-secondary) !important;
-    color: var(--color-initial) !important;
+    color: #ffffff !important;
 }
 
 .button:focus, .button:hover, button:focus, button:hover, .stButton>button:hover {
     background-color: var(--color-primary) !important;
     border-color: var(--color-primary) !important;
-    color: var(--color-initial) !important;
+    color: #ffffff !important;
 }
 
 [data-testid="stSidebar"] {
-    background-color: var(--color-quaternary);
-    border-right: 1px solid #E3E8EE;
+    background-color: var(--color-sidebar-bg);
+    border-right: 1px solid var(--color-sidebar-border);
 }
 
-[data-testid="stSidebar"] h1, 
-[data-testid="stSidebar"] h2, 
-[data-testid="stSidebar"] h3 {
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2 {
     color: var(--color-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2 {
+        color: var(--color-text);
+    }
+}
+
+/* Etichette di sezione nella sidebar (### Mercato, ### Categoria, ecc.) */
+[data-testid="stSidebar"] h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+}
+
+/* Card metriche riutilizzabili (es. Portfolio Simulator) */
+.metric-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-surface-border);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+    box-shadow: var(--card-shadow);
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+}
+
+.metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 8px;
+}
+
+.metric-delta {
+    font-size: 0.85rem;
+    color: var(--color-positive);
+    font-weight: 500;
+}
+
+.metric-delta-neutral {
+    color: var(--color-text-muted);
 }
