@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 import streamlit as st
 from typing import Dict, Tuple, Callable
 from ui.charts import create_price_chart
